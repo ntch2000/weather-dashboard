@@ -1,3 +1,10 @@
-h1 {
-  color: rebeccapurple;
+.heading {
+  color: white;
+}
+.city-search {
+  background-color: lightgray;
+}
+
+.weather {
+  background-color: lightblue;
 }
