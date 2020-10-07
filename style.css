@@ -2,9 +2,13 @@
   color: white;
 }
 .city-search {
-  background-color: lightgray;
+  background-color: #f8f9fa;
 }
 
 .weather {
-  background-color: lightblue;
+  background-color: white;
+}
+
+.border-color {
+  border-color: #dfdfdf;
 }

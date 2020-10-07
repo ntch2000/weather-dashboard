@@ -16,30 +16,45 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header class="navbar navbar-dark bg-dark">
       <h1 class="heading mx-auto">Weather Dashboard</h1>
     </header>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
         <aside class="col-4 city-search">
-          <form><h4>Search for City</h4>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+          <form class="col-9 p-0">
+            <h4>Search for a City:</h4>
+            <div class="input-group">
+              <input class="form-control" type="search" />
+              <div class="input-group-append">
+                <button class="btn btn-primary">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
         </aside>
         <div class="col-8 weather">
-          <div class="row d-block border border-dark m-1 p-3">
-            <h2>City Title</h1>
+          <div
+            class="row d-block border border-right-0 border-color my-3 ml-1 p-3"
+          >
+            <h2>City Title</h2>
             <p>Temperature</p>
             <p>Humidity</p>
             <p>Wind Speed</p>
             <p>UV Index</p>
           </div>
-          <div class="row pl-3 pt-3">
-            <h2>5-Day Forcast:</h1>
+          <div class="row pl-3">
+            <h2>5-Day Forcast:</h2>
           </div>
           <div class="row card-deck">
             <div class="card text-white bg-primary mb-3 p-2">
@@ -71,6 +86,7 @@
         </div>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
