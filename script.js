@@ -17,6 +17,15 @@ $(document).ready(function () {
 
   // FUNCTION DEFINITIONS
 
+  function searchCity() {
+    cityName = $("#searchCity").val();
+    console.log(cityName);
+    var cityBtn = $("<button>")
+      .attr("class", "list-group-item list-group-item-action")
+      .text(cityName);
+    $("#pastSearches").prepend(cityBtn);
+  }
+
   function getWeather() {
     $.ajax({
       url: queryURL,
@@ -28,4 +37,9 @@ $(document).ready(function () {
   // FUNCTION CALLS
   getWeather();
   // EVENT LISTENERS
+
+  $("#search").on("click", function (event) {
+    event.preventDefault();
+    searchCity();
+  });
 });

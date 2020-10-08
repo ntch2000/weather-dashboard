@@ -12,3 +12,7 @@
 .border-color {
   border-color: #dfdfdf;
 }
+
+.list-item-group {
+  width: 75%;
+}

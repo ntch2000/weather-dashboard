@@ -31,17 +31,34 @@
     <div class="container-fluid">
       <div class="row">
         <aside class="col-4 city-search">
-          <form class="col-9 p-0">
-            <h4>Search for a City:</h4>
-            <div class="input-group">
-              <input class="form-control" type="search" />
-              <div class="input-group-append">
-                <button class="btn btn-primary">
-                  <i class="fas fa-search"></i>
-                </button>
+          <div class="row pt-2">
+            <form class="col-9 ml-1">
+              <h4>Search for a City:</h4>
+              <div class="input-group">
+                <!-- city input for search -->
+                <input class="form-control" type="search" id="searchCity" />
+                <div class="input-group-append">
+                  <button class="btn btn-primary" id="search">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
+          <div class="row list-group col-12 ml-1 mt-3" id="pastSearches">
+            <!-- <button
+              type="button"
+              class="list-group-item list-group-item-action"
+            >
+              City Name
+            </button>
+            <button
+              type="button"
+              class="list-group-item list-group-item-action"
+            >
+              City Name
+            </button> -->
+          </div>
         </aside>
         <div class="col-8 weather">
           <div
