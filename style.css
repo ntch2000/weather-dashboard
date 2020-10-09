@@ -16,3 +16,8 @@
 .list-item-group {
   width: 75%;
 }
+
+img {
+  height: 50px;
+  width: auto;
+}
