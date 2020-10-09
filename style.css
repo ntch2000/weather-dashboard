@@ -29,12 +29,14 @@ img {
 
 .favorable {
   background-color: green;
+  color: white;
 }
 
 .moderate {
-  background-color: yellow;
+  background-color: orange;
 }
 
 .severe {
   background-color: red;
+  color: white;
 }

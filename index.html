@@ -62,10 +62,11 @@
         </aside>
         <div class="col-8 weather">
           <div
-            class="row d-block border border-right-0 border-color my-3 ml-1 p-3"
+            class="row d-block border-right-0 border-color my-3 ml-1 p-3"
+            id="current-weather"
           >
             <div class="row">
-              <h2 id="city-name"></h2>
+              <h2 class="pl-3 pb-3" id="city-name"></h2>
               <img id="weatherIcon" />
             </div>
 
@@ -75,7 +76,7 @@
             <p id="city-uvi"></p>
           </div>
           <div class="row pl-3">
-            <h2>5-Day Forcast:</h2>
+            <h2 id="forecast-title"></h2>
           </div>
           <div class="row card-deck">
             <!-- <div class="card text-white bg-primary mb-3 p-2">

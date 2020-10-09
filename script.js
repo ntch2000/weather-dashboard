@@ -26,16 +26,45 @@ $(document).ready(function () {
 
   var uvIndex;
 
+  var searchHistory = [];
+  var currentCity;
+
   // FUNCTION DEFINITIONS
+
+  function loadSearchHistory() {
+    var storedCities = JSON.parse(localStorage.getItem("history"));
+    var storedCurrentCity = localStorage.getItem("currentCity");
+    //console.log(storedCities);
+    //console.log(storedCities.length);
+    if (storedCities && storedCurrentCity) {
+      console.log(storedCurrentCity);
+      getCityLatLon(storedCurrentCity);
+      for (var i = 0; i < storedCities.length; i++) {
+        var cityBtn = $("<button>")
+          .attr("class", " cityBtn list-group-item list-group-item-action")
+          .text(storedCities[i]);
+        $("#pastSearches").append(cityBtn);
+      }
+    }
+  }
 
   function searchCity() {
     cityName = $("#searchCity").val();
-    console.log(cityName);
+    $("#searchCity").val("");
+    //console.log(cityName);
     var cityBtn = $("<button>")
       .attr("class", " cityBtn list-group-item list-group-item-action")
       .text(cityName);
     $("#pastSearches").append(cityBtn);
+    $("#forecast-title").text("5-Day Forecast:");
+    //$("#current-weather").addClass("border");
+    currentCity = cityName;
+    searchHistory.push(cityName);
 
+    localStorage.setItem("currentCity", currentCity);
+    localStorage.setItem("history", JSON.stringify(searchHistory));
+    //console.log(currentCity);
+    //console.log(searchHistory);
     getCityLatLon(cityName);
   }
 
@@ -105,7 +134,7 @@ $(document).ready(function () {
     var cityWeatherUrl =
       "http://openweathermap.org/img/wn/" + weatherIcon + ".png";
 
-    console.log(weatherObj);
+    //console.log(weatherObj);
     $("#weatherIcon").attr("src", cityWeatherUrl);
     $("#city-temp").text("Temperature: " + temperature + "\xB0F");
     $("#city-humidity").text("Humidity: " + humidity + "%");
@@ -118,15 +147,15 @@ $(document).ready(function () {
 
     if (uvIndex < 3) {
       $("#city-uvi").html(
-        "UB Index: <span class='favorable'>" + uvIndex + "</span>"
+        "UB Index: <span class='favorable p-2'>" + uvIndex + "</span>"
       );
     } else if (uvIndex > 6) {
       $("#city-uvi").html(
-        "UB Index: <span class='severe'>" + uvIndex + "</span>"
+        "UB Index: <span class='severe p-2'>" + uvIndex + "</span>"
       );
     } else {
       $("#city-uvi").html(
-        "UB Index: <span class='moderate'>" + uvIndex + "</span>"
+        "UB Index: <span class='moderate p-2'>" + uvIndex + "</span>"
       );
     }
     // $("#city-uvi").append($("<span>").text("UV Index: " + uvIndex));
@@ -141,7 +170,7 @@ $(document).ready(function () {
         "http://openweathermap.org/img/wn/" +
         weatherObj.daily[i].weather[0].icon +
         ".png";
-      console.log(dailyIcon);
+      //console.log(dailyIcon);
       // set temp
       var dailyTemp = weatherObj.daily[i].temp.day;
 
@@ -180,6 +209,8 @@ $(document).ready(function () {
   }
   // FUNCTION CALLS
 
+  loadSearchHistory();
+
   // EVENT LISTENERS
 
   $("#search").on("click", function (event) {
@@ -192,6 +223,8 @@ $(document).ready(function () {
   $(document).on("click", ".cityBtn", function () {
     console.log($(this).text());
     $(".card-deck").empty();
+
+    localStorage.setItem("currentCity", $(this).text());
     getCityLatLon($(this).text());
   });
 });
