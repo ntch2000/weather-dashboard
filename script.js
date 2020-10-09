@@ -110,7 +110,26 @@ $(document).ready(function () {
     $("#city-temp").text("Temperature: " + temperature + "\xB0F");
     $("#city-humidity").text("Humidity: " + humidity + "%");
     $("#city-wind").text("Wind Speed: " + windSpeed + " MPH");
-    $("#city-uvi").text("UV Index: " + uvIndex);
+
+    // set conditional for uv index colors
+    // 0 - 2: favorable/low
+    // 3 - 5: moderate
+    // > 6: severe
+
+    if (uvIndex < 3) {
+      $("#city-uvi").html(
+        "UB Index: <span class='favorable'>" + uvIndex + "</span>"
+      );
+    } else if (uvIndex > 6) {
+      $("#city-uvi").html(
+        "UB Index: <span class='severe'>" + uvIndex + "</span>"
+      );
+    } else {
+      $("#city-uvi").html(
+        "UB Index: <span class='moderate'>" + uvIndex + "</span>"
+      );
+    }
+    // $("#city-uvi").append($("<span>").text("UV Index: " + uvIndex));
 
     for (i = 1; i < weatherObj.daily.length - 2; i++) {
       // set date for each forecast day
