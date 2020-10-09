@@ -36,10 +36,10 @@ $(document).ready(function () {
       .text(cityName);
     $("#pastSearches").append(cityBtn);
 
-    getWeather(cityName);
+    getCityLatLon(cityName);
   }
 
-  function getForecast(lat, lon) {
+  function getWeatherForecast(lat, lon) {
     // https://api.openweathermap.org/data/2.5/onecall?lat=33.75&lon=-84.39&exclude=minutely,hourly,alerts&appid=a804367293883745a69dec50c4a49813
 
     // "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,alerts&appid=" + apiKey
@@ -58,16 +58,26 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
 
+      icon = response.current.weather[0].icon;
+      // converts the unix UTC datetime to the current date
+      currentDate = new Date(response.current.dt * 1000).toLocaleDateString();
+      //console.log(currentDate);
+      temperature = response.current.temp;
+      humidity = response.current.humidity;
+      windSpeed = response.current.wind_speed;
+      uvIndex = response.current.uvi;
+
       for (var i = 0; i < response.daily.length; i++) {
         var date = new Date(response.daily[i].dt * 1000).toLocaleDateString();
 
         console.log("Day 1: " + date);
       }
+      populateWeatherData(icon);
     });
   }
 
-  function getWeather(city) {
-    var weatherURL =
+  function getCityLatLon(city) {
+    var queryUrl =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
       "&units=imperial" +
@@ -75,25 +85,18 @@ $(document).ready(function () {
       apiKey;
 
     $.ajax({
-      url: weatherURL,
+      url: queryUrl,
       method: "GET",
     }).then(function (response) {
       console.log(response);
-      icon = response.weather[0].icon;
+
       console.log(icon);
       cityLon = response.coord.lon;
       cityLat = response.coord.lat;
 
-      // converts the unix UTC datetime to the current date
-      currentDate = new Date(response.dt * 1000).toLocaleDateString();
-      //console.log(currentDate);
-      temperature = response.main.temp;
-      humidity = response.main.humidity;
-      windSpeed = response.wind.speed;
-
       //console.log(cityLon, cityLat);
-      populateWeatherData(icon);
-      getForecast(cityLat, cityLon);
+
+      getWeatherForecast(cityLat, cityLon);
     });
   }
 
@@ -106,6 +109,7 @@ $(document).ready(function () {
     $("#city-temp").text("Temperature: " + temperature + "\xB0F");
     $("#city-humidity").text("Humidity: " + humidity + "%");
     $("#city-wind").text("Wind Speed: " + windSpeed + " MPH");
+    $("#city-uvi").text("UV Index: " + uvIndex);
   }
   // FUNCTION CALLS
 
