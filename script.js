@@ -8,36 +8,34 @@ $(document).ready(function () {
 
   // JS VARIABLES
 
+  // sets the API key to access openweather
   var apiKey = "a804367293883745a69dec50c4a49813";
 
+  // variables for the name of the city, weather icon, date, latitude/longitude, temperature, humidity, wind speed, and uv index
   var cityName;
   var icon;
-
   var currentDate;
-
   var cityLon;
   var cityLat;
-
   var temperature;
-
   var humidity;
-
   var windSpeed;
-
   var uvIndex;
 
+  // empty array for keep search history and the last city searched
   var searchHistory = [];
   var currentCity;
 
   // FUNCTION DEFINITIONS
 
+  // loads the saved search history and city information when the page is refreshed
   function loadSearchHistory() {
     var storedCities = JSON.parse(localStorage.getItem("history"));
     var storedCurrentCity = localStorage.getItem("currentCity");
-    //console.log(storedCities);
-    //console.log(storedCities.length);
+
+    // populates the city search history buttons and executes the function to obtain the lat and lon of the last city searched
     if (storedCities && storedCurrentCity) {
-      console.log(storedCurrentCity);
+      //console.log(storedCurrentCity);
       getCityLatLon(storedCurrentCity);
       for (var i = 0; i < storedCities.length; i++) {
         var cityBtn = $("<button>")
@@ -48,6 +46,7 @@ $(document).ready(function () {
     }
   }
 
+  // dynamically generates the search history buttons
   function searchCity() {
     cityName = $("#searchCity").val();
     $("#searchCity").val("");
@@ -58,21 +57,21 @@ $(document).ready(function () {
     $("#pastSearches").append(cityBtn);
     $("#forecast-title").text("5-Day Forecast:");
     //$("#current-weather").addClass("border");
+
+    // saves the searched city into local storage and as the current city
     currentCity = cityName;
     searchHistory.push(cityName);
 
     localStorage.setItem("currentCity", currentCity);
     localStorage.setItem("history", JSON.stringify(searchHistory));
-    //console.log(currentCity);
-    //console.log(searchHistory);
+
+    // executes the function to obtain the latitude and longitude of the city searched to be passed into the getWeatherForecast function
     getCityLatLon(cityName);
   }
 
+  // obtains all the weather information for the city that was searched
   function getWeatherForecast(lat, lon) {
-    // https://api.openweathermap.org/data/2.5/onecall?lat=33.75&lon=-84.39&exclude=minutely,hourly,alerts&appid=a804367293883745a69dec50c4a49813
-
-    // "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,alerts&appid=" + apiKey
-
+    // sets the url for the API call with the passed in latitude and longitude
     var forecastURL =
       "https://api.openweathermap.org/data/2.5/onecall?lat=" +
       lat +
@@ -87,21 +86,14 @@ $(document).ready(function () {
     }).then(function (response) {
       //console.log(response);
 
-      icon = response.current.weather[0].icon;
-      // converts the unix UTC datetime to the current date
-
-      //console.log(currentDate);
+      // sets the weather statistics from the API response
       temperature = response.current.temp;
       humidity = response.current.humidity;
       windSpeed = response.current.wind_speed;
       uvIndex = response.current.uvi;
 
-      //   for (var i = 0; i < response.daily.length; i++) {
-      //     var date = new Date(response.daily[i].dt * 1000).toLocaleDateString();
-
-      //     console.log("Day 1: " + date);
-      //  }
-      populateWeatherData(icon, response);
+      //
+      populateWeatherData(response);
     });
   }
 
@@ -122,6 +114,9 @@ $(document).ready(function () {
       //console.log(icon);
       cityLon = response.coord.lon;
       cityLat = response.coord.lat;
+
+      // converts the unix UTC datetime to the current date
+
       currentDate = new Date(response.dt * 1000).toLocaleDateString();
       //console.log(cityLon, cityLat);
       $("#city-name").text(city + " (" + currentDate + ")");
@@ -130,9 +125,14 @@ $(document).ready(function () {
     });
   }
 
-  function populateWeatherData(weatherIcon, weatherObj) {
-    var cityWeatherUrl =
-      "http://openweathermap.org/img/wn/" + weatherIcon + ".png";
+  function populateWeatherData(weatherObj) {
+    console.log(weatherObj.current.weather[0].icon);
+
+    // gets the weather icon information from the API response
+    icon = weatherObj.current.weather[0].icon;
+
+    // sets the url for the weather icons
+    var cityWeatherUrl = "http://openweathermap.org/img/wn/" + icon + ".png";
 
     //console.log(weatherObj);
     $("#weatherIcon").attr("src", cityWeatherUrl);
