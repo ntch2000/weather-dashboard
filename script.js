@@ -60,7 +60,7 @@ $(document).ready(function () {
 
       icon = response.current.weather[0].icon;
       // converts the unix UTC datetime to the current date
-      currentDate = new Date(response.current.dt * 1000).toLocaleDateString();
+
       //console.log(currentDate);
       temperature = response.current.temp;
       humidity = response.current.humidity;
@@ -93,8 +93,9 @@ $(document).ready(function () {
       console.log(icon);
       cityLon = response.coord.lon;
       cityLat = response.coord.lat;
-
+      currentDate = new Date(response.dt * 1000).toLocaleDateString();
       //console.log(cityLon, cityLat);
+      $("#city-name").text(cityName + " (" + currentDate + ")");
 
       getWeatherForecast(cityLat, cityLon);
     });
@@ -104,7 +105,6 @@ $(document).ready(function () {
     var cityWeatherUrl =
       "http://openweathermap.org/img/wn/" + weatherIcon + ".png";
 
-    $("#city-name").text(cityName + " (" + currentDate + ")");
     $("#weatherIcon").attr("src", cityWeatherUrl);
     $("#city-temp").text("Temperature: " + temperature + "\xB0F");
     $("#city-humidity").text("Humidity: " + humidity + "%");
@@ -123,5 +123,6 @@ $(document).ready(function () {
   // listens for any clicks on the city buttons
   $(document).on("click", ".cityBtn", function () {
     console.log($(this).text());
+    getCityLatLon($(this).text());
   });
 });
