@@ -21,3 +21,8 @@ img {
   height: 50px;
   width: auto;
 }
+
+.forecast-img {
+  height: auto;
+  width: 60px;
+}
