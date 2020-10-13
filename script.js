@@ -169,7 +169,7 @@ $(document).ready(function () {
       ).toLocaleDateString();
       // set weather icon -- need to add to function call
       var dailyIcon =
-        "http://openweathermap.org/img/wn/" +
+        "https://openweathermap.org/img/wn/" +
         weatherObj.daily[i].weather[0].icon +
         ".png";
       //console.log(dailyIcon);
