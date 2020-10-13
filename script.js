@@ -69,35 +69,9 @@ $(document).ready(function () {
     getCityLatLon(cityName);
   }
 
-  // obtains all the weather information for the city that was searched
-  function getWeatherForecast(lat, lon) {
-    // sets the url for the API call with the passed in latitude and longitude
-    var forecastURL =
-      "https://api.openweathermap.org/data/2.5/onecall?lat=" +
-      lat +
-      "&lon=" +
-      lon +
-      "&exclude=minutely,hourly,alerts&units=imperial&appid=" +
-      apiKey;
-
-    $.ajax({
-      url: forecastURL,
-      method: "GET",
-    }).then(function (response) {
-      //console.log(response);
-
-      // sets the weather statistics from the API response
-      temperature = response.current.temp;
-      humidity = response.current.humidity;
-      windSpeed = response.current.wind_speed;
-      uvIndex = response.current.uvi;
-
-      //
-      populateWeatherData(response);
-    });
-  }
-
+  // function to obtain the latitude and longitude of the searched city
   function getCityLatLon(city) {
+    // setting the query url for the API call
     var queryUrl =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
@@ -105,6 +79,7 @@ $(document).ready(function () {
       "&appid=" +
       apiKey;
 
+    // ajax API call to retrieve the city coordinates
     $.ajax({
       url: queryUrl,
       method: "GET",
@@ -125,6 +100,33 @@ $(document).ready(function () {
     });
   }
 
+  // obtains all the weather information for the city that was searched
+  function getWeatherForecast(lat, lon) {
+    // sets the url for the API call with the passed in latitude and longitude
+    var forecastURL =
+      "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+      lat +
+      "&lon=" +
+      lon +
+      "&exclude=minutely,hourly,alerts&units=imperial&appid=" +
+      apiKey;
+
+    //ajax API call to retrieve weather forecast data
+    $.ajax({
+      url: forecastURL,
+      method: "GET",
+    }).then(function (response) {
+      // sets the weather statistics from the API response
+      temperature = response.current.temp;
+      humidity = response.current.humidity;
+      windSpeed = response.current.wind_speed;
+      uvIndex = response.current.uvi;
+
+      // calls function to populate html pages with weather data
+      populateWeatherData(response);
+    });
+  }
+
   function populateWeatherData(weatherObj) {
     console.log(weatherObj.current.weather[0].icon);
 
@@ -132,7 +134,7 @@ $(document).ready(function () {
     icon = weatherObj.current.weather[0].icon;
 
     // sets the url for the weather icons
-    var cityWeatherUrl = "http://openweathermap.org/img/wn/" + icon + ".png";
+    var cityWeatherUrl = "https://openweathermap.org/img/wn/" + icon + ".png";
 
     //console.log(weatherObj);
     $("#weatherIcon").attr("src", cityWeatherUrl);
