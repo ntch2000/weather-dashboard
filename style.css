@@ -1,9 +1,14 @@
+/* sets the style of the heading of the page */
 .heading {
   color: white;
 }
+
+/* sets the style of the city search container */
 .city-search {
   background-color: #f8f9fa;
 }
+
+/* sets the style of the weather container*/
 
 .weather {
   background-color: white;
@@ -13,29 +18,38 @@
   border-color: #dfdfdf;
 }
 
+/* sets the size style of the city buttons */
+
 .list-item-group {
   width: 75%;
 }
 
+/* sets the size of the main weather icon for the current day's weather */
 img {
   height: 50px;
   width: auto;
 }
 
+/* sets the size for the weather icons for the forecast cards */
 .forecast-img {
   height: auto;
   width: 60px;
 }
 
+/* the styles for the UV conditions */
+
+/* favorable conditions are a uvi  of 0 - 2 */
 .favorable {
   background-color: green;
   color: white;
 }
 
+/* moderate conditions are a uvi  of 3 - 5 */
 .moderate {
   background-color: orange;
 }
 
+/* severe conditions are a uvi  of > 6 */
 .severe {
   background-color: red;
   color: white;

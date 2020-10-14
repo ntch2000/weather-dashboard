@@ -95,9 +95,9 @@ $(document).ready(function () {
         }
       })
       .fail(function () {
-        // if the ajax call fails, the input field is cleared and an alert is shown indicating a valid city must be entered
+        // if the ajax call fails, the input field is cleared and modal is shown indicating a valid city must be entered
+        $(".error-modal").modal("show");
         $("#searchCity").val("");
-        alert("Enter a valid city!");
       });
   }
 
@@ -136,6 +136,7 @@ $(document).ready(function () {
     // sets the url for the weather icons
     var cityWeatherUrl = "https://openweathermap.org/img/wn/" + icon + ".png";
 
+    $("#current-weather").addClass("border");
     // populates the weather data on the page
     $("#weatherIcon").attr("src", cityWeatherUrl);
     $("#city-temp").text("Temperature: " + temperature + "\xB0F");
@@ -149,15 +150,15 @@ $(document).ready(function () {
 
     if (uvIndex < 3) {
       $("#city-uvi").html(
-        "UB Index: <span class='favorable p-2'>" + uvIndex + "</span>"
+        "UV Index: <span class='favorable p-2'>" + uvIndex + "</span>"
       );
     } else if (uvIndex > 6) {
       $("#city-uvi").html(
-        "UB Index: <span class='severe p-2'>" + uvIndex + "</span>"
+        "UV Index: <span class='severe p-2'>" + uvIndex + "</span>"
       );
     } else {
       $("#city-uvi").html(
-        "UB Index: <span class='moderate p-2'>" + uvIndex + "</span>"
+        "UV Index: <span class='moderate p-2'>" + uvIndex + "</span>"
       );
     }
     // clears the forecast cards before populating new cards

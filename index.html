@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+
 <html>
   <head>
     <meta charset="utf-8" />
@@ -50,20 +47,44 @@
               </div>
             </form>
           </div>
-          <div class="row list-group col-12 ml-1 mt-3" id="pastSearches">
-            <!-- <button
-              type="button"
-              class="list-group-item list-group-item-action"
-            >
-              City Name
-            </button>
-            <button
-              type="button"
-              class="list-group-item list-group-item-action"
-            >
-              City Name
-            </button> -->
+          <!-- Modal -->
+          <div
+            class="modal fade error-modal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="mySmallModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Invalid City</h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Please enter a valid city!</p>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+          <!-- end modal -->
+          <div class="row list-group col-12 ml-1 mt-3" id="pastSearches"></div>
         </aside>
         <div class="col-8 weather">
           <div
@@ -83,42 +104,17 @@
           <div class="row pl-3">
             <h2 id="forecast-title"></h2>
           </div>
-          <div class="row card-deck">
-            <!-- <div class="card text-white bg-primary mb-3 p-2">
-              <h5 class="card-title">8/16/2019</h5>
-              <img
-                class="forecast-img"
-                src="http://openweathermap.org/img/wn/10d@2x.png"
-              />
-              <p class="card-text">Temp: 86.94 F</p>
-              <p class="card-text">Humidity: 43%</p>
-            </div>
-
-            <div class="card text-white bg-primary mb-3 p-2">
-              <h5 class="card-title">8/16/2019</h5>
-              <p class="card-text">Temp: 86.94 F</p>
-              <p class="card-text">Humidity: 43%</p>
-            </div>
-            <div class="card text-white bg-primary mb-3 p-2">
-              <h5 class="card-title">8/16/2019</h5>
-              <p class="card-text">Temp: 86.94 F</p>
-              <p class="card-text">Humidity: 43%</p>
-            </div>
-            <div class="card text-white bg-primary mb-3 p-2">
-              <h5 class="card-title">8/16/2019</h5>
-              <p class="card-text">Temp: 86.94 F</p>
-              <p class="card-text">Humidity: 43%</p>
-            </div>
-            <div class="card text-white bg-primary mb-3 p-2">
-              <h5 class="card-title">8/16/2019</h5>
-              <p class="card-text">Temp: 86.94 F</p>
-              <p class="card-text">Humidity: 43%</p>
-            </div> -->
-          </div>
+          <div class="row card-deck"></div>
         </div>
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
     <script src="script.js"></script>
   </body>
 </html>
