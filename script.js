@@ -21,6 +21,8 @@ $(document).ready(function () {
   var humidity;
   var windSpeed;
   var uvIndex;
+  // boolean to track if a city has been searched and a button created
+  var buttonCreated;
 
   // empty array for keep search history and the last city searched
   var searchHistory = [];
@@ -35,7 +37,6 @@ $(document).ready(function () {
 
     // populates the city search history buttons and executes the function to obtain the lat and lon of the last city searched
     if (storedCities && storedCurrentCity) {
-      //console.log(storedCurrentCity);
       getCityLatLon(storedCurrentCity);
       for (var i = 0; i < storedCities.length; i++) {
         var cityBtn = $("<button>")
@@ -47,16 +48,13 @@ $(document).ready(function () {
   }
 
   // dynamically generates the search history buttons
-  function searchCity() {
-    cityName = $("#searchCity").val();
+  function createCityButtons() {
     $("#searchCity").val("");
-    //console.log(cityName);
     var cityBtn = $("<button>")
       .attr("class", " cityBtn list-group-item list-group-item-action")
       .text(cityName);
     $("#pastSearches").append(cityBtn);
     $("#forecast-title").text("5-Day Forecast:");
-    //$("#current-weather").addClass("border");
 
     // saves the searched city into local storage and as the current city
     currentCity = cityName;
@@ -65,8 +63,8 @@ $(document).ready(function () {
     localStorage.setItem("currentCity", currentCity);
     localStorage.setItem("history", JSON.stringify(searchHistory));
 
-    // executes the function to obtain the latitude and longitude of the city searched to be passed into the getWeatherForecast function
-    getCityLatLon(cityName);
+    // sets boolean to true after button is created
+    buttonCreated = true;
   }
 
   // function to obtain the latitude and longitude of the searched city
@@ -83,25 +81,37 @@ $(document).ready(function () {
     $.ajax({
       url: queryUrl,
       method: "GET",
-    }).then(function (response) {
-      //console.log(response);
+    })
+      .then(function (response) {
+        cityLon = response.coord.lon;
+        cityLat = response.coord.lat;
 
-      //console.log(icon);
-      cityLon = response.coord.lon;
-      cityLat = response.coord.lat;
+        // converts the unix UTC datetime to the current date
+        currentDate = new Date(response.dt * 1000).toLocaleDateString();
 
-      // converts the unix UTC datetime to the current date
+        $("#city-name").text(city + " (" + currentDate + ")");
+        // if a city button has not been created, creates the button and calls the getWeatherForecast function
+        if (buttonCreated === false) {
+          createCityButtons();
+          getWeatherForecast(cityLat, cityLon);
+        } else {
+          // if a button has already been created, just called the getWeatherForecast function
+          getWeatherForecast(cityLat, cityLon);
+        }
+      })
+      .fail(function () {
+        // if the ajax call fails, the input field is cleared and an alert is shown indicating a valid city must be entered
+        $("#searchCity").val("");
+        alert("Enter a valid city!");
 
-      currentDate = new Date(response.dt * 1000).toLocaleDateString();
-      //console.log(cityLon, cityLat);
-      $("#city-name").text(city + " (" + currentDate + ")");
-
-      getWeatherForecast(cityLat, cityLon);
-    });
+        // the getWeatherForecast function is called to retrieve the weather information for the last valid city searched
+        getWeatherForecast(cityLat, cityLon);
+      });
   }
 
   // obtains all the weather information for the city that was searched
   function getWeatherForecast(lat, lon) {
+    buttonCreated = false;
     // sets the url for the API call with the passed in latitude and longitude
     var forecastURL =
       "https://api.openweathermap.org/data/2.5/onecall?lat=" +
@@ -136,7 +146,7 @@ $(document).ready(function () {
     // sets the url for the weather icons
     var cityWeatherUrl = "https://openweathermap.org/img/wn/" + icon + ".png";
 
-    //console.log(weatherObj);
+    // populates the weather data on the page
     $("#weatherIcon").attr("src", cityWeatherUrl);
     $("#city-temp").text("Temperature: " + temperature + "\xB0F");
     $("#city-humidity").text("Humidity: " + humidity + "%");
@@ -160,7 +170,6 @@ $(document).ready(function () {
         "UB Index: <span class='moderate p-2'>" + uvIndex + "</span>"
       );
     }
-    // $("#city-uvi").append($("<span>").text("UV Index: " + uvIndex));
 
     for (i = 1; i < weatherObj.daily.length - 2; i++) {
       // set date for each forecast day
@@ -172,7 +181,7 @@ $(document).ready(function () {
         "https://openweathermap.org/img/wn/" +
         weatherObj.daily[i].weather[0].icon +
         ".png";
-      //console.log(dailyIcon);
+
       // set temp
       var dailyTemp = weatherObj.daily[i].temp.day;
 
@@ -180,10 +189,10 @@ $(document).ready(function () {
       var dailyHumidity = weatherObj.daily[i].humidity;
 
       createForecastCards(dailyDate, dailyIcon, dailyTemp, dailyHumidity);
-      //console.log(date);
     }
   }
 
+  // creates the 5-day forecast information cards with the passed in values of date, weather icon url, temp, and humidity
   function createForecastCards(date, iconUrl, temp, humidity) {
     var forecastDiv = $("<div>").attr(
       "class",
@@ -211,18 +220,25 @@ $(document).ready(function () {
   }
   // FUNCTION CALLS
 
+  // loads the searched city buttons and the weather information from the last city searched on page load
   loadSearchHistory();
 
   // EVENT LISTENERS
 
   $("#search").on("click", function (event) {
     event.preventDefault();
+    cityName = $("#searchCity").val();
     $(".card-deck").empty();
-    searchCity();
+
+    // sets the boolean to false since a button will not have been created when a user searched for a city
+    buttonCreated = false;
+    getCityLatLon(cityName);
   });
 
   // listens for any clicks on the city buttons
   $(document).on("click", ".cityBtn", function () {
+    // city button has already been created so the boolean is set to true
+    buttonCreated = true;
     console.log($(this).text());
     $(".card-deck").empty();
 
