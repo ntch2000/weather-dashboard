@@ -1,9 +1,4 @@
 $(document).ready(function () {
-  console.log("Hello");
-
-  // weather icon src url
-  // http://openweathermap.org/img/wn/10d@2x.png
-
   // DOM VARIABLES
 
   // JS VARIABLES
@@ -103,9 +98,6 @@ $(document).ready(function () {
         // if the ajax call fails, the input field is cleared and an alert is shown indicating a valid city must be entered
         $("#searchCity").val("");
         alert("Enter a valid city!");
-
-        // the getWeatherForecast function is called to retrieve the weather information for the last valid city searched
-        getWeatherForecast(cityLat, cityLon);
       });
   }
 
@@ -138,8 +130,6 @@ $(document).ready(function () {
   }
 
   function populateWeatherData(weatherObj) {
-    console.log(weatherObj.current.weather[0].icon);
-
     // gets the weather icon information from the API response
     icon = weatherObj.current.weather[0].icon;
 
@@ -170,6 +160,8 @@ $(document).ready(function () {
         "UB Index: <span class='moderate p-2'>" + uvIndex + "</span>"
       );
     }
+    // clears the forecast cards before populating new cards
+    $(".card-deck").empty();
 
     for (i = 1; i < weatherObj.daily.length - 2; i++) {
       // set date for each forecast day
@@ -228,7 +220,6 @@ $(document).ready(function () {
   $("#search").on("click", function (event) {
     event.preventDefault();
     cityName = $("#searchCity").val();
-    $(".card-deck").empty();
 
     // sets the boolean to false since a button will not have been created when a user searched for a city
     buttonCreated = false;
@@ -239,8 +230,6 @@ $(document).ready(function () {
   $(document).on("click", ".cityBtn", function () {
     // city button has already been created so the boolean is set to true
     buttonCreated = true;
-    console.log($(this).text());
-    $(".card-deck").empty();
 
     localStorage.setItem("currentCity", $(this).text());
     getCityLatLon($(this).text());
