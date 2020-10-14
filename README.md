@@ -1,10 +1,20 @@
-# weather-dashboard
+# Weather Dashboard
 
-Application dashboard to search for current weather data for selected cities
+## Description
 
-# 06 Server-Side APIs: Weather Dashboard
+This application allows users to search for a city and obtain the current weather and 5-day forecast for that city. Cities searched are saved in a button list which can be used to obtain the weather information for the city again when clicked.
 
-Developers are often tasked with retrieving data from another application's API and using it in the context of their own. Third-party APIs allow developers to access their data and functionality by making requests with specific parameters to a URL. Your challenge is to build a weather dashboard that will run in the browser and feature dynamically updated HTML and CSS.
+## Table of Contents
+
+- [Description](#description)
+- [User Story](#user-story)
+- [Acceptance Criteria](#acceptance-criteria)
+- [Installation](#installation)
+- [Application Screenshot](#application-screenshot)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Development Challenges](#development-challenges)
+- [Credits](#credits)
 
 Use the [OpenWeather API](https://openweathermap.org/api) to retrieve weather data for cities. The documentation includes a section called "How to start" that will provide basic setup and usage instructions. Use `localStorage` to store any persistent data.
 
@@ -32,20 +42,53 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 WHEN I open the weather dashboard
 THEN I am presented with the last searched city forecast
+
 ```
 
-The following image demonstrates the application functionality:
+## Installation
 
-![weather dashboard demo](./Assets/06-server-side-apis-homework-demo.png)
+In order to view this application, please visit the Weather Dashboard at https://ntch2000.github.io/weather-dashboard/.
 
-## Review
+To see the code base for this page, visit my github page https://github.com/ntch2000/weather-dashboard. The code can be viewed directly in the github repository or downloaded and viewed in Visual Studio Code.
 
-You are required to submit the following for review:
+## Application Screenshot
 
-- The URL of the deployed application.
+![Weather Dashboard](./Assets/weather-dashboard-screenshot.jpg "Weather Dashboard")
+_Sample application screenshot showing the weather for Charleston._
 
-- The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
+## Usage
+
+Users can easily enter any known city into the search bar on the dashboard and hit the search button with the magnifying glass icon. This will populate the weather dashboard with the current weather from the searched city as well as the 5-day forecast for that city.
+
+Weather information included in the dashboard is as follows:
+
+- Weather Icon - Represents the current weather in the city
+- Temperature
+- Humidity
+- Wind Speed
+- UV Index
+
+The 5-day forecast information includes:
+
+- Weather Icon - Represents the weather for the specified date
+- Temperature for the specified date
+- Humidity for the specified date
+
+The city that was searched will also populate a search history below the search box as a button. As more cities are searched, the history will fill. Users are then able to click on any of the city buttons previously searched in order to repopulate that city's weather information. This search history will persist even if the page is reloaded and will display the weather from the last city that was searched on page refresh.
+
+## Development Challenges
+
+The most challenging aspect of this project was handling AJAX API call errors. The application is able to throw an error and a bootstrap modal appears on the screen indicating the user needs to enter a valid city.
+
+An error is still thrown in the console due to the API url not being valid. The only way to prevent this from happening would be to hard code a list of cities to compare the input to and see if there is a match before performing the AJAX API call.
+
+## Credits
+
+- In order to obtain the weather data for the cities, the [OpenWeather API](https://openweathermap.org/api) was used.
+- [Bootstrap 4](https://getbootstrap.com/) was used to style the pages.
+- The [jQuery CDN](https://code.jquery.com/) was used in order to use the jQuery library in this project.
+- [Font Awesome](https://fontawesome.com/) was used to get the search icon on the search button.
 
 ---
 
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+© 2020 Neil Gandhi
